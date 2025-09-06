@@ -1,0 +1,38 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewpoint" content="width=device-width initial-scale=1.0 user-scalable=no">
+        <title>Sudoku</title>
+
+        <link rel="stylesheet" href="sudoku.css">
+        <script src="sudoku.js"></script>
+        <style>
+            body{
+                background-image: url(background.png);
+            }
+               
+            .bordered-text {
+              
+              padding: 1px;                 /* 文字與邊框之間的空隙 */
+              display: inline-block;        /* 讓邊框包住文字 */
+              background-color: #fff;       /* 可選：背景色讓文字更清楚 */
+            }
+        </style>
+
+    </head>
+    <body>
+        <h1 class="bordered-text" style="color: black;" >Sudoku</h1>
+        <hr>
+        <div style="text-align: center;">  
+            <!-- style 是css inline-block是放同一條線 margin right是右邊空格-->
+        <h4 class="bordered-text" style="color: coral; display: inline-block;margin-right: 10px;">errors times:</h4> 
+        <h4 class="bordered-text" id="errors" style="display: inline-block">0</h4>
+        </div>
+        <!-- 9x9 board -->
+        <div id="board"></div>
+        <br>
+        <div id="digits">
+        </div>
+
+    </body>
+</html>
