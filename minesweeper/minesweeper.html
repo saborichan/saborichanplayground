@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Minesweeper</title>
+        <style>
+            body{
+                background-image: url(background.png);
+            }
+            .bordered-text {
+              
+              padding: 8px;                 /* 文字與邊框之間的空隙 */
+              display: inline-block;        /* 讓邊框包住文字 */
+              background-color: #fff;       /* 可選：背景色讓文字更清楚 */
+            }
+
+        </style>
+        <link rel="stylesheet" href="minesweeper.css">
+        <script src="minesweeper.js"></script>
+    </head>
+
+    <body>
+        <h1 class="bordered-text" style="color: #000;">Mines: <span id="mines-count">0</span></h1>
+        <div id="board"></div>
+        <br>
+        <button id="flag-button">🚩</button>
+        <button onclick="window.location.reload();">restart</button>
+        <br>
+        <br>
+        <audio controls>
+            <source src="war music.mp3" type="audio/mpeg">
+        </audio>
+        <br>
+        <br>
+        <a href="../index.html">home</a>
+        
+        
+    </body>
+
+</html>
