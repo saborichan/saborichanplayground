@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<!-- 繁體中文叫zh-Hant -->
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>QR Code 產生器
+  </title>
+  <!--這個程式的主腦-->
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      padding: 2rem;
+    }
+    input {
+      padding: 0.5rem;
+      width: 300px;
+    }
+    button {
+      padding: 0.5rem 1rem;
+      margin-left: 0.5rem;
+    }
+    #qrcode {
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>QR Code 產生器</h1>
+  <input type="text" id="qrText" placeholder="輸入內容">
+  <button onclick="generateQR()">產生 QR Code</button>
+  <div id="qrcode"></div>
+
+  <script>
+    function generateQR() {
+      //讀取使用者輸入內容
+      const text = document.getElementById('qrText').value;
+      //先把之前的輸入內容清楚(第一次也會只是沒資料所以沒差但第二次以後都會清除)
+      document.getElementById('qrcode').innerHTML = ''; // 清空舊的 QR Code
+      //建立QRcode
+      new QRCode(document.getElementById("qrcode"), {
+        text: text,
+        width: 200,
+        height: 200
+      });
+    }
+  </script>
+
+</body>
+</html>
