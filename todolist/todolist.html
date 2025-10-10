@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Daily Todo Calendar</title>
+  <style>
+    body {
+      font-family: 'M PLUS 1p', sans-serif;
+      padding: 20px;
+    }
+    h1, h2 {
+      margin-bottom: 10px;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      margin-bottom: 8px;
+    }
+    #calendar {
+      margin-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      max-width: 300px;
+    }
+    .day {
+      width: 40px;
+      height: 40px;
+      margin: 2px;
+      text-align: center;
+      line-height: 40px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background-color: #f0f0f0;
+    }
+    .done {
+      background-color: #c8f7c5;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>今日任務</h1>
+  <ul id="list"></ul>
+  <p id="status"></p>
+
+  <h2>任務完成日曆</h2>
+  <div id="calendar"></div>
+
+  <script>
+    'use strict';
+
+    const STORAGE_KEY = 'dailyTodoStatus';
+    const todoList = ['workout', 'running', 'drink water', 'eat protein', 'at least 8hrs sleep'];
+
+    function getLocalDateString() {
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const day = String(now.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    }
+
+    const today = getLocalDateString();
+    let savedData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+    let todayStatus = savedData[today] || {};
+
+    function renderTodoList() {
+      const list = document.getElementById('list');
+      list.innerHTML = '';
+      for (let task of todoList) {
+        const li = document.createElement('li');
+        const label = document.createElement('label');
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.checked = !!todayStatus[task];
+        checkbox.addEventListener('change', () => {
+          todayStatus[task] = checkbox.checked;
+          savedData[today] = todayStatus;
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(savedData));
+          updateStatus();
+          renderCalendar();
+        });
+        label.appendChild(checkbox);
+        label.appendChild(document.createTextNode(' ' + task));
+        li.appendChild(label);
+        list.appendChild(li);
+      }
+    }
+
+    function updateStatus() {
+      const allDone = todoList.every(task => todayStatus[task]);
+      document.getElementById('status').textContent = allDone
+        ? '🎉 今日任務全部完成！'
+        : '☐ 還有任務未完成';
+    }
+
+    function renderCalendar() {
+      const calendar = document.getElementById('calendar');
+      calendar.innerHTML = '';
+
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = now.getMonth();
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+      for (let day = 1; day <= daysInMonth; day++) {
+        const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        const dayStatus = savedData[dateStr] || {};
+        const allDone = todoList.every(task => dayStatus[task]);
+
+        const cell = document.createElement('div');
+        cell.className = 'day' + (allDone ? ' done' : '');
+        cell.textContent = allDone ? `${day}✅` : day;
+        cell.title = allDone ? '已完成任務' : '未完成';
+        calendar.appendChild(cell);
+      }
+    }
+
+    renderTodoList();
+    updateStatus();
+    renderCalendar();
+  </script>
+</body>
+</html>
